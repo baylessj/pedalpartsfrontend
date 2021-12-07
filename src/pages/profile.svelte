@@ -15,8 +15,11 @@
   <div class="content-layout">
     <h1 class="content__title">Profile</h1>
     <div class="content__body">
-      <p>
-        <strong>Only authenticated users should access this page.</strong>
+     <p>
+        You can use the ID Token to get the profile information of an
+        authenticated user.
+        <br />
+        <strong>Only authenticated users can access this page.</strong>
       </p>
       <div class="profile-grid">
         <div class="profile__header">
