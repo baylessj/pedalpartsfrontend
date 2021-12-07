@@ -1,5 +1,6 @@
 import axios from "axios";
 import { writable } from "svelte/store";
+import { useAuth0 } from "./auth0";
 
 export const AccessControlLevel = {
   PUBLIC: "public",
@@ -14,8 +15,19 @@ export const selectedAccessControlLevel = writable("");
 export const apiEndpoint = writable("");
 export const apiResponse = writable("Click a button to make an API request...");
 
+const { getAccessToken } = useAuth0;
+
 const makeRequest = async (options) => {
   try {
+    if (options.authenticated) {
+      const token = await getAccessToken();
+
+      options.config.headers = {
+        ...options.config.headers,
+        Authorization: `Bearer ${token}`,
+      };
+    }
+
     const response = await axios(options.config);
 
     const { data } = response;
@@ -61,7 +73,7 @@ export const getProtectedResource = async () => {
     },
   };
 
-  const data = await makeRequest({ config });
+  const data = await makeRequest({ config, authenticated: true });
 
   apiResponse.set(JSON.stringify(data, null, 2));
 };
@@ -79,7 +91,7 @@ export const getRbacResource = async () => {
     },
   };
 
-  const data = await makeRequest({ config });
+  const data = await makeRequest({ config, authenticated: true });
 
   apiResponse.set(JSON.stringify(data, null, 2));
 };
@@ -97,7 +109,7 @@ export const checkCorsAllowedMethod = async () => {
     },
   };
 
-  const data = await makeRequest({ config });
+  const data = await makeRequest({ config, authenticated: true });
 
   apiResponse.set(JSON.stringify(data, null, 2));
 };

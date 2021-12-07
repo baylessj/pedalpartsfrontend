@@ -1,4 +1,5 @@
 <script>
+  import AuthenticationButton from "./buttons/authentication-button.svelte";
   import { activeRoute } from "./pager/router.svelte";
 </script>
 
@@ -30,6 +31,9 @@
       >
         External API
       </a>
+    </div>
+    <div class="nav-bar__actions">
+      <AuthenticationButton />
     </div>
   </nav>
 </div>
